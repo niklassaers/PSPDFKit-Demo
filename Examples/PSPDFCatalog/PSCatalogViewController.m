@@ -494,6 +494,18 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
 
         return [[PSPDFViewController alloc] initWithDocument:multimediaDoc];
     }]];
+    
+    [multimediaSection addContent:[PSContent contentWithTitle:@"Image Gallery" block:^{
+        PSPDFDocument *multimediaDoc = [PSPDFDocument documentWithURL:[samplesURL URLByAppendingPathComponent:kHackerMagazineExample]];
+        multimediaDoc.annotationSaveMode = PSPDFAnnotationSaveModeDisabled;
+        
+        // dynamically add video box
+        PSPDFLinkAnnotation *gallery = [[PSPDFLinkAnnotation alloc] initWithURLString:@"pspdfkit://[autostart:false, cover:true]localhost/Bundle/sample.gallery"];
+        gallery.boundingBox = CGRectInset([multimediaDoc pageInfoForPage:0].rotatedPageRect, 100, 100);
+        [multimediaDoc addAnnotations:@[gallery]];
+        
+        return [[PSPDFViewController alloc] initWithDocument:multimediaDoc];
+    }]];
     [sections addObject:multimediaSection];
 
     PSCSectionDescriptor *annotationSection = [PSCSectionDescriptor sectionWithTitle:@"PDF Annotations" footer:@"PSPDFKit supports all common PDF annotation types."];

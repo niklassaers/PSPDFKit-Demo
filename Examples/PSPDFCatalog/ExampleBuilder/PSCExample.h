@@ -13,7 +13,8 @@
 typedef NS_ENUM(NSInteger, PSCExampleCategory) {
     PSCExampleCategoryAnnotations,
     PSCExampleCategoryBarButtons,
-    PSCExampleCategoryViewCustomization
+    PSCExampleCategoryViewCustomization,
+    PSCExampleCategoryMultimedia
 };
 
 typedef NS_OPTIONS(NSInteger, PSCExampleTargetDeviceMask) {

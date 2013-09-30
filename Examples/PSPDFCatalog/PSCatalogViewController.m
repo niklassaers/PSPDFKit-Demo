@@ -500,7 +500,7 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
         multimediaDoc.annotationSaveMode = PSPDFAnnotationSaveModeDisabled;
         
         // dynamically add video box
-        PSPDFLinkAnnotation *gallery = [[PSPDFLinkAnnotation alloc] initWithURLString:@"pspdfkit://[autostart:false, cover:true]localhost/Bundle/sample.gallery"];
+        PSPDFLinkAnnotation *gallery = [[PSPDFLinkAnnotation alloc] initWithURLString:@"pspdfkit://localhost/Bundle/sample.gallery"];
         gallery.boundingBox = CGRectInset([multimediaDoc pageInfoForPage:0].rotatedPageRect, 100, 100);
         [multimediaDoc addAnnotations:@[gallery]];
         

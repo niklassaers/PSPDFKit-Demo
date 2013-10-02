@@ -3,6 +3,14 @@
         "contentURL":"http://localhost/Bundle/gallery-local-image.jpg",
         "caption":"This is a local image."
     },
+  {
+      "contentURL":"http://google.com",
+      "caption":"This is an invalid resource."
+  },
+  {
+      "contentURL":"http://adsdasasddasasdasdasasdasadsasdas35441212331.com",
+      "caption":"This should result in a connection error."
+  },
     {
         "contentURL":"http://farm5.staticflickr.com/4112/5170590074_066e255655_o.jpg"
     },

@@ -1,8 +1,12 @@
 [
     {
-        "contentURL":"http://localhost/Bundle/gallery-local-image.jpg",
-        "caption":"This is a local image."
+        "contentURL":"http://demo-trunk.ofbiz.apache.org/images/products/GZ-1000/small.png",
+        "caption":"This is a small image."
     },
+  {
+      "contentURL":"http://localhost/Bundle/gallery-local-image.jpg",
+      "caption":"This is a local image."
+  },
   {
       "contentURL":"http://google.com",
       "caption":"This is an invalid resource."

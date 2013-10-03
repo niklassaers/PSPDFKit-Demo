@@ -177,6 +177,7 @@
 		78FDE16516CC209A005044D2 /* PSCHideHUDForThumbnailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78FDE16416CC209A005044D2 /* PSCHideHUDForThumbnailsViewController.m */; };
 		78FE606317DE68320039B54E /* PSCCustomAnnotationToolbarButtonsExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 78FE606117DE68320039B54E /* PSCCustomAnnotationToolbarButtonsExample.m */; };
 		78FE606D17DE6B790039B54E /* PSCCustomSearchBarButtonImageExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 78FE606B17DE6B790039B54E /* PSCCustomSearchBarButtonImageExample.m */; };
+		8CC28B9217FD99D5009AABBD /* PSCGalleryInlineExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CC28B9117FD99D5009AABBD /* PSCGalleryInlineExample.m */; };
 		8CDCCD5E17F96E9000AE525F /* PSCGalleryExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CDCCD5D17F96E9000AE525F /* PSCGalleryExample.m */; };
 /* End PBXBuildFile section */
 
@@ -458,6 +459,8 @@
 		78FE606B17DE6B790039B54E /* PSCCustomSearchBarButtonImageExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSCCustomSearchBarButtonImageExample.m; sourceTree = "<group>"; };
 		78FE606C17DE6B790039B54E /* PSCCustomSearchBarButtonImageExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSCCustomSearchBarButtonImageExample.h; sourceTree = "<group>"; };
 		78FFE5301781874E00FBA7DF /* PSCAvailability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSCAvailability.h; sourceTree = "<group>"; };
+		8CC28B9017FD99D5009AABBD /* PSCGalleryInlineExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSCGalleryInlineExample.h; sourceTree = "<group>"; };
+		8CC28B9117FD99D5009AABBD /* PSCGalleryInlineExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSCGalleryInlineExample.m; sourceTree = "<group>"; };
 		8CDCCD5C17F96E9000AE525F /* PSCGalleryExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSCGalleryExample.h; sourceTree = "<group>"; };
 		8CDCCD5D17F96E9000AE525F /* PSCGalleryExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSCGalleryExample.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1024,6 +1027,8 @@
 		8CDCCD5B17F96E9000AE525F /* Multimedia */ = {
 			isa = PBXGroup;
 			children = (
+				8CC28B9017FD99D5009AABBD /* PSCGalleryInlineExample.h */,
+				8CC28B9117FD99D5009AABBD /* PSCGalleryInlineExample.m */,
 				8CDCCD5C17F96E9000AE525F /* PSCGalleryExample.h */,
 				8CDCCD5D17F96E9000AE525F /* PSCGalleryExample.m */,
 			);
@@ -1181,6 +1186,7 @@
 				78DDC72E15CF2EFF0030C730 /* AFPropertyListRequestOperation.m in Sources */,
 				78DDC72F15CF2EFF0030C730 /* AFURLConnectionOperation.m in Sources */,
 				78DDC73015CF2EFF0030C730 /* AFXMLRequestOperation.m in Sources */,
+				8CC28B9217FD99D5009AABBD /* PSCGalleryInlineExample.m in Sources */,
 				78DDC73215CF2EFF0030C730 /* UIImageView+AFNetworking.m in Sources */,
 				7885F48A179DD8CA00B89714 /* UIBarButtonItem+PSCBlockSupport.m in Sources */,
 				78DDC75B15CF2EFF0030C730 /* SDURLCache.m in Sources */,

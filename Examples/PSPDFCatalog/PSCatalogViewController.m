@@ -63,6 +63,7 @@
 #import "NSObject+PSCDeallocationBlock.h"
 #import "PSCAssetLoader.h"
 #import "PSCExampleManager.h"
+#import "PSCViewHelper.h"
 #import <objc/runtime.h>
 
 // Crypto support
@@ -130,7 +131,7 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
 
         PSPDFViewController *controller = [[PSCKioskPDFViewController alloc] initWithDocument:document];
         controller.statusBarStyleSetting = PSPDFStatusBarStyleDefault;
-        if (PSPDFIsUIKitFlatMode()) {
+        if (PSCIsUIKitFlatMode()) {
             controller.statusBarStyleSetting = PSPDFStatusBarStyleSmartBlack;
             controller.tintColor = UIColor.pspdfColor;      // navBarTintColor
         }
@@ -501,12 +502,12 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
     [annotationSection addContent:[PSContent contentWithTitle:@"Write annotations into the PDF" block:^{
         NSURL *annotationSavingURL = [samplesURL URLByAppendingPathComponent:kHackerMagazineExample];
         //NSURL *annotationSavingURL = [samplesURL URLByAppendingPathComponent:kPaperExampleFileName];
-        //NSURL *annotationSavingURL = [samplesURL URLByAppendingPathComponent:@"WNTestBook.pdf"];
         //NSURL *annotationSavingURL = [samplesURL URLByAppendingPathComponent:@"Testcase_Forms_V-Kg1-Antrag.pdf"];
 
         // Copy file from the bundle to a location where we can write on it.
         NSURL *newURL = PSCCopyFileURLToDocumentFolderAndOverride(annotationSavingURL, NO);
         PSPDFDocument *document = [PSPDFDocument documentWithURL:newURL];
+        document.annotationSaveMode = PSPDFAnnotationSaveModeEmbedded;
 
         // Allows to configure each annotation type.
         document.editableAnnotationTypes = [NSOrderedSet orderedSetWithObjects:
@@ -1471,6 +1472,8 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
     [subclassingSection addContent:[PSContent contentWithTitle:@"Core Data Annotation Provider" block:^UIViewController *{
         // Create document.
         PSPDFDocument *document = [PSPDFDocument documentWithURL:[samplesURL URLByAppendingPathComponent:@"A.pdf"]];
+        // The Core Data Annotation Provider doesn't support undo/redo.
+        document.undoEnabled = NO;
         // Set annotation provider block.
         [document setDidCreateDocumentProviderBlock:^(PSPDFDocumentProvider *documentProvider) {
             PSCCoreDataAnnotationProvider *provider = [[PSCCoreDataAnnotationProvider alloc] initWithDocumentProvider:documentProvider];
@@ -1566,20 +1569,22 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
         pdfController1.pageMode = pdfController2.pageMode = pdfController3.pageMode = pdfController4.pageMode = PSPDFPageModeSingle;
         pdfController1.viewMode = pdfController2.viewMode = pdfController3.viewMode = pdfController4.viewMode = PSPDFViewModeThumbnails;
 
-        pdfController1.leftBarButtonItems  = @[pdfController1.annotationButtonItem];
-        pdfController1.rightBarButtonItems = @[pdfController1.viewModeButtonItem];
+        void (^configureVC)(PSPDFViewController *pdfController) = ^void(PSPDFViewController *pdfController) {
+            pdfController1.leftBarButtonItems  = @[pdfController1.annotationButtonItem];
+            pdfController1.rightBarButtonItems = @[pdfController1.viewModeButtonItem];
+            pdfController1.shouldHideStatusBarWithHUD = NO;
+        };
+
+        configureVC(pdfController1);
         pdfController1.useParentNavigationBar = YES;
         pdfController1.useBorderedToolbarStyle = YES;
-        pdfController2.leftBarButtonItems  = @[pdfController2.annotationButtonItem];
-        pdfController2.rightBarButtonItems = @[pdfController2.viewModeButtonItem];
+        configureVC(pdfController2);
         pdfController2.useParentNavigationBar = YES;
         pdfController2.useBorderedToolbarStyle = NO;
-        pdfController3.leftBarButtonItems  = @[pdfController3.annotationButtonItem];
-        pdfController3.rightBarButtonItems = @[pdfController3.viewModeButtonItem];
+        configureVC(pdfController3);
         pdfController3.useParentNavigationBar = NO;
         pdfController3.useBorderedToolbarStyle = YES;
-        pdfController4.leftBarButtonItems  = @[pdfController4.annotationButtonItem];
-        pdfController4.rightBarButtonItems = @[pdfController4.viewModeButtonItem];
+        configureVC(pdfController4);
         pdfController4.useParentNavigationBar = NO;
         pdfController4.useBorderedToolbarStyle = NO;
 
@@ -1589,6 +1594,7 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
         UINavigationController *navigationController4 = [[UINavigationController alloc] initWithRootViewController:pdfController4];
         UITabBarController *tabBarController = [[UITabBarController alloc] init];
         tabBarController.viewControllers = @[navigationController1, navigationController2, navigationController3, navigationController4];
+        PSC_IF_IOS7_OR_GREATER(tabBarController.tabBar.translucent = NO;)
         return tabBarController;
     }]];
 
@@ -2887,7 +2893,7 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
 
     // Restore state as it was before.
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-    if (PSPDFIsUIKitFlatMode()) {
+    if (PSCIsUIKitFlatMode()) {
         PSC_IF_IOS7_OR_GREATER([UIApplication.sharedApplication setStatusBarStyle:UIStatusBarStyleLightContent animated:animated];)
         PSC_IF_IOS7_OR_GREATER(self.navigationController.navigationBar.barTintColor = UIColor.pspdfColor;)
         PSC_IF_IOS7_OR_GREATER(self.navigationController.view.tintColor = UIColor.whiteColor;)

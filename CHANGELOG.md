@@ -2,6 +2,52 @@
 
 Subscribe to updates: [RSS](https://github.com/PSPDFKit/PSPDFKit-Demo/commits/master.atom) | [Twitter](http://twitter.com/PSPDFKit)
 
+__v3.0.8 - 2/Oct/2013__
+
+*  Use a background task to save annotations when the application enters the background to make sure it finishes before the app gets killed.
+*  Thumbnail page label is now re-enabled by default. (Control this via subclassing PSPDFThumbnailGridViewCell and setting the pageLabelEnabled property.)
+*  Ensure the status bar is visible if it was originally visible when showing the note view controller on iPhone.
+*  Improves various details for the note controller, bookmark controller, annotation controller and outline controller related to iOS 7 tinting.
+*  Fixes an issue where saved note annotations sometimes were not correctly removed from the page view until the page was changed.
+*  Fixes an issue where ink annotations could end up on the wrong page when using multiple document providers.
+*  Fixes an issue that could prevent the grouping menu from appear in the annotation toolbar.
+*  Updated some graphics in the PSPDFKit.bundle.
+
+__v3.0.7 - 1/Oct/2013__
+
+*  Improves compatibility with resolving named actions.
+*  Ensures that the PDF outline is hidden if no page action targets could be resolved.
+*  Reenable undo/redo by default.
+*  Fixes a tiny memory leak.
+
+__v3.0.6 - 1/Oct/2013__
+
+*  Always updates bar button items on a document change. Fixes conditions where a button could be in an disabled state if not used in the main toolbar.
+*  The status bar state captured at viewWillAppear is now only restored when the PSPDFVC is poppoed from the stack, not on every disappear.
+*  Makes it easier to disable undo/redo. (new undoEnabled property on PSPDFDocument)
+*  Improves error return code when saving annotations.
+*  Fixes an issue where unsaved annotations could be lost during an low memory event when using the tabbed view controller.
+*  Fixes a potential non-main-thread call while preparing for saving.
+*  Fixes an issue with saving certain documents.
+
+__v3.0.5 - 30/Sept/2013__
+
+*  Font picker now is searchable and shows downloadable fonts.
+*  The eraser UI properties can now be changed via UIApperance proxies.
+*  The form text field update logic is now more clever and won't change form objects if they are only tapped.
+*  Improves styling of the mail sharing view controller on iOS 7.
+*  Improves interoperability with Objective-C++.
+*  Improves support for a white global tintColor on iOS 7. (check boxes are no longer white)
+*  Improves spacing for the half-modal annotation style inspector on iPhone/iOS 7.
+*  The annotation manager now continues to look into other providers if the previous one returns nil.
+*  Prevent a case where the HUD could be hidden while we're in the thumbnail transition.
+*  Changes 'basePath' to 'baseURL' to fix an API inconsistency in PSPDFDocument.
+*  Creating a large set of PSPDFDocument objects is now much faster (e.g. while using PSPDFDocumentPickerController)
+*  Fixes an issue that could prevent saving annotations into certain documents.
+*  Fixes an issue where rotating the signature controller would increase the line thickness.
+*  Fixes an issue that prevented committing the rename action in the PSPDFBookmarkViewController.
+*  Fixes a potential crash related to the annotation selection view.
+
 __v3.0.4 - 25/Sept/2013__
 
 *  Further tweaks and changes how tintColor is handled on iOS 7.

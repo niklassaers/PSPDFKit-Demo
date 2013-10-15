@@ -111,6 +111,7 @@
 		78B1E1CE1641B65D00FB8FC4 /* PSCBottomToolbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B1E1CC1641B65D00FB8FC4 /* PSCBottomToolbarViewController.m */; };
 		78B29DC9170B150600806DE0 /* PSCImageOverlayPDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B29DC8170B150600806DE0 /* PSCImageOverlayPDFViewController.m */; };
 		78B4D6B017914D5700568A26 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78B4D6AF17914D5700568A26 /* CoreData.framework */; };
+		78B8FF5018041A1F0077178A /* PSCSelectAllTextExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B8FF4E18041A1F0077178A /* PSCSelectAllTextExample.m */; };
 		78BCC69A15D31BF2006735A9 /* big_buck_bunny.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 78BCC69715D31BF2006735A9 /* big_buck_bunny.mp4 */; };
 		78BCC69B15D31BF2006735A9 /* exampleimage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 78BCC69815D31BF2006735A9 /* exampleimage.jpg */; };
 		78BCC69C15D31BF2006735A9 /* NightOwl.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 78BCC69915D31BF2006735A9 /* NightOwl.m4a */; };
@@ -178,6 +179,9 @@
 		8C5C347C1801C22000F6891B /* PSCMassiveGalleryExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C5C347B1801C22000F6891B /* PSCMassiveGalleryExample.m */; };
 		8CC28B9217FD99D5009AABBD /* PSCGalleryInlineExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CC28B9117FD99D5009AABBD /* PSCGalleryInlineExample.m */; };
 		8CDCCD5E17F96E9000AE525F /* PSCGalleryExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CDCCD5D17F96E9000AE525F /* PSCGalleryExample.m */; };
+		9A6534B51806BD5300A7D0D0 /* PSCPageRangeExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A6534B41806BD5300A7D0D0 /* PSCPageRangeExample.m */; };
+		9A6534B81806BEC100A7D0D0 /* PSCPageRangeFilterExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A6534B71806BEC100A7D0D0 /* PSCPageRangeFilterExample.m */; };
+		9A6534BF1806EEE300A7D0D0 /* PSPDFDocumentDataProvidersExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A6534BD1806EEE300A7D0D0 /* PSPDFDocumentDataProvidersExample.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -339,6 +343,8 @@
 		78B29DC7170B150600806DE0 /* PSCImageOverlayPDFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSCImageOverlayPDFViewController.h; sourceTree = "<group>"; };
 		78B29DC8170B150600806DE0 /* PSCImageOverlayPDFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSCImageOverlayPDFViewController.m; sourceTree = "<group>"; };
 		78B4D6AF17914D5700568A26 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		78B8FF4E18041A1F0077178A /* PSCSelectAllTextExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSCSelectAllTextExample.m; sourceTree = "<group>"; };
+		78B8FF4F18041A1F0077178A /* PSCSelectAllTextExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSCSelectAllTextExample.h; sourceTree = "<group>"; };
 		78BCC69715D31BF2006735A9 /* big_buck_bunny.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = big_buck_bunny.mp4; sourceTree = "<group>"; };
 		78BCC69815D31BF2006735A9 /* exampleimage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = exampleimage.jpg; sourceTree = "<group>"; };
 		78BCC69915D31BF2006735A9 /* NightOwl.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = NightOwl.m4a; sourceTree = "<group>"; };
@@ -460,6 +466,12 @@
 		8CC28B9117FD99D5009AABBD /* PSCGalleryInlineExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSCGalleryInlineExample.m; sourceTree = "<group>"; };
 		8CDCCD5C17F96E9000AE525F /* PSCGalleryExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSCGalleryExample.h; sourceTree = "<group>"; };
 		8CDCCD5D17F96E9000AE525F /* PSCGalleryExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSCGalleryExample.m; sourceTree = "<group>"; };
+		9A6534B31806BD5300A7D0D0 /* PSCPageRangeExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSCPageRangeExample.h; sourceTree = "<group>"; };
+		9A6534B41806BD5300A7D0D0 /* PSCPageRangeExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSCPageRangeExample.m; sourceTree = "<group>"; };
+		9A6534B61806BEC100A7D0D0 /* PSCPageRangeFilterExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSCPageRangeFilterExample.h; sourceTree = "<group>"; };
+		9A6534B71806BEC100A7D0D0 /* PSCPageRangeFilterExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSCPageRangeFilterExample.m; sourceTree = "<group>"; };
+		9A6534BD1806EEE300A7D0D0 /* PSPDFDocumentDataProvidersExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSPDFDocumentDataProvidersExample.m; sourceTree = "<group>"; };
+		9A6534BE1806EEE300A7D0D0 /* PSPDFDocumentDataProvidersExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSPDFDocumentDataProvidersExample.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -831,32 +843,40 @@
 		78C7C5C716CB9C4D0006075D /* Customization */ = {
 			isa = PBXGroup;
 			children = (
-				78B115C317B9915200DCD45A /* PSCiBooksHighlightingViewController.m */,
-				78B115C417B9915200DCD45A /* PSCiBooksHighlightingViewController.h */,
 				78C7C5C816CB9C4D0006075D /* PSCAnnotationTestController.h */,
 				78C7C5C916CB9C4D0006075D /* PSCAnnotationTestController.m */,
 				78C7C5CA16CB9C4D0006075D /* PSCButtonPDFViewController.h */,
 				78C7C5CB16CB9C4D0006075D /* PSCButtonPDFViewController.m */,
 				78C7C5CC16CB9C4D0006075D /* PSCChildViewController.h */,
 				78C7C5CD16CB9C4D0006075D /* PSCChildViewController.m */,
+				789B9D3417F2EB43008BC64B /* PSCContentViewUsageExample.h */,
+				789B9D3317F2EB43008BC64B /* PSCContentViewUsageExample.m */,
 				78C7C5CE16CB9C4D0006075D /* PSCCustomThumbnailsViewController.h */,
 				78C7C5CF16CB9C4D0006075D /* PSCCustomThumbnailsViewController.m */,
 				78C7C5D016CB9C4D0006075D /* PSCCustomToolbarController.h */,
 				78C7C5D116CB9C4D0006075D /* PSCCustomToolbarController.m */,
 				78C7C5D216CB9C4D0006075D /* PSCEmbeddedTestController.h */,
 				78C7C5D316CB9C4D0006075D /* PSCEmbeddedTestController.m */,
+				6F51A30B16CE0AE80020B9BC /* PSCHideHUDDelayedDocumentViewController.h */,
+				6F51A30C16CE0AE80020B9BC /* PSCHideHUDDelayedDocumentViewController.m */,
+				78FDE16316CC209A005044D2 /* PSCHideHUDForThumbnailsViewController.h */,
+				78FDE16416CC209A005044D2 /* PSCHideHUDForThumbnailsViewController.m */,
+				78B115C417B9915200DCD45A /* PSCiBooksHighlightingViewController.h */,
+				78B115C317B9915200DCD45A /* PSCiBooksHighlightingViewController.m */,
+				9A6534B31806BD5300A7D0D0 /* PSCPageRangeExample.h */,
+				9A6534B41806BD5300A7D0D0 /* PSCPageRangeExample.m */,
+				9A6534B61806BEC100A7D0D0 /* PSCPageRangeFilterExample.h */,
+				9A6534B71806BEC100A7D0D0 /* PSCPageRangeFilterExample.m */,
 				78C7C5D416CB9C4D0006075D /* PSCRotatablePDFViewController.h */,
 				78C7C5D516CB9C4D0006075D /* PSCRotatablePDFViewController.m */,
+				78B8FF4F18041A1F0077178A /* PSCSelectAllTextExample.h */,
+				78B8FF4E18041A1F0077178A /* PSCSelectAllTextExample.m */,
 				78C7C5D616CB9C4D0006075D /* PSCSplitDocumentSelectorController.h */,
 				78C7C5D716CB9C4D0006075D /* PSCSplitDocumentSelectorController.m */,
 				78C7C5D816CB9C4D0006075D /* PSCSplitPDFViewController.h */,
 				78C7C5D916CB9C4D0006075D /* PSCSplitPDFViewController.m */,
-				78FDE16316CC209A005044D2 /* PSCHideHUDForThumbnailsViewController.h */,
-				78FDE16416CC209A005044D2 /* PSCHideHUDForThumbnailsViewController.m */,
-				6F51A30B16CE0AE80020B9BC /* PSCHideHUDDelayedDocumentViewController.h */,
-				6F51A30C16CE0AE80020B9BC /* PSCHideHUDDelayedDocumentViewController.m */,
-				789B9D3317F2EB43008BC64B /* PSCContentViewUsageExample.m */,
-				789B9D3417F2EB43008BC64B /* PSCContentViewUsageExample.h */,
+				9A6534BE1806EEE300A7D0D0 /* PSPDFDocumentDataProvidersExample.h */,
+				9A6534BD1806EEE300A7D0D0 /* PSPDFDocumentDataProvidersExample.m */,
 			);
 			path = Customization;
 			sourceTree = "<group>";
@@ -1158,6 +1178,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78B8FF5018041A1F0077178A /* PSCSelectAllTextExample.m in Sources */,
 				784F012A15CF247900849F81 /* main.m in Sources */,
 				78E4E06617DD151C005ED42D /* PSCExampleManager.m in Sources */,
 				784F012E15CF247900849F81 /* PSCAppDelegate.m in Sources */,
@@ -1195,6 +1216,7 @@
 				783BB8FC17AAE81500AEF0DF /* NSObject+PSCDeallocationBlock.m in Sources */,
 				78A24AAF15CFDAE200328F4F /* PSCSectionDescriptor.m in Sources */,
 				78AAC6F115D1760E009B53C6 /* PSCBookmarkParser.m in Sources */,
+				9A6534BF1806EEE300A7D0D0 /* PSPDFDocumentDataProvidersExample.m in Sources */,
 				78A8EE5C15D6ADA900400DE7 /* PSCEmbeddedAnnotationTestViewController.m in Sources */,
 				78FE606317DE68320039B54E /* PSCCustomAnnotationToolbarButtonsExample.m in Sources */,
 				78A3815F15DABFEB003850E8 /* PSCustomTextSelectionMenuController.m in Sources */,
@@ -1245,11 +1267,13 @@
 				78FDE16516CC209A005044D2 /* PSCHideHUDForThumbnailsViewController.m in Sources */,
 				6F51A30D16CE0AE80020B9BC /* PSCHideHUDDelayedDocumentViewController.m in Sources */,
 				8CDCCD5E17F96E9000AE525F /* PSCGalleryExample.m in Sources */,
+				9A6534B81806BEC100A7D0D0 /* PSCPageRangeFilterExample.m in Sources */,
 				78A50BCF16D6B287003EFFC0 /* PSCCustomDefaultZoomScaleViewController.m in Sources */,
 				78C6842A16F7E5330080427B /* PSCDropboxDocumentSelectorController.m in Sources */,
 				78E6EF0B17EF03050017E8B3 /* UIColor+PSPDFCatalog.m in Sources */,
 				78C6842B16F7E5330080427B /* PSCDropboxFloatingToolbar.m in Sources */,
 				78C6842C16F7E5330080427B /* PSCDropboxPDFViewController.m in Sources */,
+				9A6534B51806BD5300A7D0D0 /* PSCPageRangeExample.m in Sources */,
 				78C6842D16F7E5330080427B /* PSCDropboxSplitViewController.m in Sources */,
 				78C6843C16F8C3EF0080427B /* PSCAnnotationTrailerCaptureDocument.m in Sources */,
 				78B29DC9170B150600806DE0 /* PSCImageOverlayPDFViewController.m in Sources */,
@@ -1400,7 +1424,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../PSPDFKit.embeddedframework\"",
 					"\"$(SRCROOT)/PSPDFCatalog/Vendor/\"/**",
-					"\"$(SRCROOT)/PSPDFCatalog/Vendor/GSDropboxActivity\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PSPDFCatalog/PSPDFCatalog-Prefix.pch";
@@ -1419,7 +1442,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../PSPDFKit.embeddedframework\"",
 					"\"$(SRCROOT)/PSPDFCatalog/Vendor/\"/**",
-					"\"$(SRCROOT)/PSPDFCatalog/Vendor/GSDropboxActivity\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PSPDFCatalog/PSPDFCatalog-Prefix.pch";

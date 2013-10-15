@@ -28,11 +28,35 @@
 
 @end
 
-NSString *PSPDFStringFromExampleCategory(PSCExampleCategory category) {
+NSString *PSPDFHeaderFromExampleCategory(PSCExampleCategory category) {
     switch (category) {
         case PSCExampleCategoryAnnotations:
             return @"Annotations";
+        case PSCExampleCategoryBarButtons:
+            return @"BarButtons";
+        case PSCExampleCategoryViewCustomization:
+            return @"ViewCustomization";
+        case PSCExampleCategoryPageRange:
+            return @"PageRange";
+        case PSCExampleCategoryDocumentDataProvider:
+            return @"PSPDFDocument data providers";
         default:
             return nil;
     }
 }
+
+NSString *PSPDFFooterFromExampleCategory(PSCExampleCategory category) {
+    switch (category) {
+        case PSCExampleCategoryPageRange:
+            return @"With pageRange, the pages visible can be filtered";
+        case PSCExampleCategoryAnnotations:
+        case PSCExampleCategoryBarButtons:
+        case PSCExampleCategoryViewCustomization:
+        case PSCExampleCategoryDocumentDataProvider:
+            return @"PSPDFDocument is highly flexible and allows you to merge multiple file sources to one logical one.";
+        default:
+            return nil;
+    }
+}
+
+

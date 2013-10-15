@@ -15,6 +15,8 @@ typedef NS_ENUM(NSInteger, PSCExampleCategory) {
     PSCExampleCategoryBarButtons,
     PSCExampleCategoryViewCustomization,
     PSCExampleCategoryMultimedia
+    PSCExampleCategoryPageRange,
+    PSCExampleCategoryDocumentDataProvider
 };
 
 typedef NS_OPTIONS(NSInteger, PSCExampleTargetDeviceMask) {
@@ -22,7 +24,8 @@ typedef NS_OPTIONS(NSInteger, PSCExampleTargetDeviceMask) {
     PSCExampleTargetDeviceMaskPad   = 1 << 1
 };
 
-extern NSString *PSPDFStringFromExampleCategory(PSCExampleCategory category);
+extern NSString *PSPDFHeaderFromExampleCategory(PSCExampleCategory category);
+extern NSString *PSPDFFooterFromExampleCategory(PSCExampleCategory category);
 
 // Base class for examples.
 @interface PSCExample : NSObject
@@ -38,6 +41,9 @@ extern NSString *PSPDFStringFromExampleCategory(PSCExampleCategory category);
 
 // Target device. Defaults to PSCExampleTargetDeviceMaskPhone|PSCExampleTargetDeviceMaskPad.
 @property (nonatomic, assign) PSCExampleTargetDeviceMask targetDevice;
+
+// The priority of this example.
+@property (nonatomic, assign) NSInteger priority;
 
 // Builds the sample and returns a new view controller that will then be pushed.
 - (UIViewController *)invoke;

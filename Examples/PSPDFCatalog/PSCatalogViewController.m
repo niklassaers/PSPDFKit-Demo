@@ -105,8 +105,6 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
         self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Catalog" style:UIBarButtonItemStylePlain target:nil action:nil];
         [self createTableContent];
         [self addDebugButtons];
-
-        PSC_IF_IOS7_OR_GREATER(self.edgesForExtendedLayout = UIRectEdgeNone;)
     }
     return self;
 }
@@ -231,218 +229,6 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
     [sections addObject:appSection];
     ///////////////////////////////////////////////////////////////////////////////////////////
 
-    // PSPDFDocument data provider test
-    PSCSectionDescriptor *documentTests = [PSCSectionDescriptor sectionWithTitle:@"PSPDFDocument data providers" footer:@"PSPDFDocument is highly flexible and allows you to merge multiple file sources to one logical one."];
-
-    /// PSPDFDocument works with a NSURL
-    [documentTests addContent:[PSContent contentWithTitle:@"NSURL" block:^{
-        PSPDFDocument *document = [PSPDFDocument documentWithURL:hackerMagURL];
-        PSPDFViewController *controller = [[PSPDFViewController alloc] initWithDocument:document];
-        controller.rightBarButtonItems = @[controller.emailButtonItem, controller.printButtonItem, controller.searchButtonItem, controller.outlineButtonItem, controller.viewModeButtonItem];
-        return controller;
-    }]];
-
-    /// A NSData (both memory-mapped and full)
-    [documentTests addContent:[PSContent contentWithTitle:@"NSData" block:^{
-        NSData *data = [NSData dataWithContentsOfMappedFile:[hackerMagURL path]];
-        PSPDFDocument *document = [PSPDFDocument documentWithData:data];
-        document.title = @"NSData PDF";
-        PSPDFViewController *controller = [[PSPDFViewController alloc] initWithDocument:document];
-        controller.rightBarButtonItems = @[controller.emailButtonItem, controller.searchButtonItem, controller.outlineButtonItem, controller.viewModeButtonItem];
-        return controller;
-    }]];
-
-    /// And even a CGDocumentProvider (can be used for encryption)
-    [documentTests addContent:[PSContent contentWithTitle:@"CGDocumentProvider" block:^{
-        NSData *data = [NSData dataWithContentsOfURL:hackerMagURL options:NSDataReadingMappedIfSafe error:NULL];
-        CGDataProviderRef dataProvider = CGDataProviderCreateWithCFData((__bridge CFDataRef)(data));
-        //        CGDataProviderRef dataProvider = CGDataProviderCreateWithURL((__bridge CFURLRef)([samplesURL URLByAppendingPathComponent:@"corrupted.pdf"]));
-        PSPDFDocument *document = [PSPDFDocument documentWithDataProvider:dataProvider];
-        document.title = @"CGDataProviderRef PDF";
-        CGDataProviderRelease(dataProvider);
-        PSPDFViewController *controller = [[PSPDFViewController alloc] initWithDocument:document];
-        controller.rightBarButtonItems = @[controller.emailButtonItem, controller.searchButtonItem, controller.outlineButtonItem, controller.viewModeButtonItem];
-        return controller;
-    }]];
-
-    /// PSPDFDocument works with multiple NSURLs
-    [documentTests addContent:[PSContent contentWithTitle:@"Multiple files" block:^{
-        NSArray *files = @[@"A.pdf", @"B.pdf", @"C.pdf", @"D.pdf"];
-        PSPDFDocument *document = [PSPDFDocument documentWithBaseURL:samplesURL files:files];
-        PSPDFViewController *controller = [[PSPDFViewController alloc] initWithDocument:document];
-        controller.rightBarButtonItems = @[controller.searchButtonItem, controller.printButtonItem, controller.annotationButtonItem, controller.viewModeButtonItem];
-        controller.additionalBarButtonItems = @[controller.openInButtonItem, controller.emailButtonItem];
-        return controller;
-    }]];
-
-    [documentTests addContent:[PSContent contentWithTitle:@"Multiple NSData objects (memory mapped)" block:^{
-        static PSPDFDocument *document = nil;
-        if (!document) {
-            NSURL *file1 = [samplesURL URLByAppendingPathComponent:@"A.pdf"];
-            NSURL *file2 = [samplesURL URLByAppendingPathComponent:@"B.pdf"];
-            NSURL *file3 = [samplesURL URLByAppendingPathComponent:@"C.pdf"];
-            NSData *data1 = [NSData dataWithContentsOfURL:file1 options:NSDataReadingMappedIfSafe error:NULL];
-            NSData *data2 = [NSData dataWithContentsOfURL:file2 options:NSDataReadingMappedIfSafe error:NULL];
-            NSData *data3 = [NSData dataWithContentsOfURL:file3 options:NSDataReadingMappedIfSafe error:NULL];
-            document = [PSPDFDocument documentWithDataArray:@[data1, data2, data3]];
-        }else {
-            // this is not needed, just an example how to use the changed dataArray (the data will be changed when annotations are written back)
-            document = [PSPDFDocument documentWithDataArray:document.dataArray];
-        }
-
-        // make sure your NSData objects are either small or memory mapped; else you're getting into memory troubles.
-        PSPDFViewController *controller = [[PSPDFViewController alloc] initWithDocument:document];
-        controller.rightBarButtonItems = @[controller.annotationButtonItem, controller.searchButtonItem, controller.viewModeButtonItem];
-        controller.additionalBarButtonItems = @[controller.openInButtonItem, controller.emailButtonItem];
-        return controller;
-    }]];
-
-    [documentTests addContent:[PSContent contentWithTitle:@"Multiple NSData objects" block:^{
-        // make data document static in this example, so that the annotations will be saved (the NSData array will get changed)
-        static PSPDFDocument *document = nil;
-        if (!document) {
-            NSURL *file1 = [samplesURL URLByAppendingPathComponent:@"A.pdf"];
-            NSURL *file2 = [samplesURL URLByAppendingPathComponent:@"B.pdf"];
-            NSURL *file3 = [samplesURL URLByAppendingPathComponent:@"C.pdf"];
-            NSData *data1 = [NSData dataWithContentsOfURL:file1];
-            NSData *data2 = [NSData dataWithContentsOfURL:file2];
-            NSData *data3 = [NSData dataWithContentsOfURL:file3];
-            document = [PSPDFDocument documentWithDataArray:@[data1, data2, data3]];
-        }
-
-        // make sure your NSData objects are either small or memory mapped; else you're getting into memory troubles.
-        PSPDFViewController *controller = [[PSPDFViewController alloc] initWithDocument:document];
-        controller.rightBarButtonItems = @[controller.annotationButtonItem, controller.searchButtonItem, controller.viewModeButtonItem];
-        controller.additionalBarButtonItems = @[controller.openInButtonItem, controller.emailButtonItem];
-        return controller;
-    }]];
-
-    [documentTests addContent:[PSContent contentWithTitle:@"Multiple NSData objects (merged)" block:^{
-        NSArray *fileNames = @[@"A.pdf", @"B.pdf", @"C.pdf"];
-        //NSArray *fileNames = @[@"Test6.pdf", @"Test5.pdf", @"Test4.pdf", @"Test1.pdf", @"Test2.pdf", @"Test3.pdf", @"rotated-northern.pdf", @"A.pdf", @"rotated360degrees.pdf", @"Rotated PDF.pdf"];
-        NSMutableArray *dataArray = [NSMutableArray array];
-        for (NSString *fileName in fileNames) {
-            NSURL *file = [samplesURL URLByAppendingPathComponent:fileName];
-            NSData *data = [NSData dataWithContentsOfURL:file];
-            [dataArray addObject:data];
-        }
-        PSPDFDocument *document = [PSPDFDocument documentWithDataArray:dataArray];
-
-        // Here we combine the NSData pieces in the PSPDFDocument into one piece of NSData (for sharing)
-        NSDictionary *options = @{PSPDFProcessorAnnotationTypes : @(PSPDFAnnotationTypeNone & ~PSPDFAnnotationTypeLink)};
-        NSData *consolidatedData = [[PSPDFProcessor defaultProcessor] generatePDFFromDocument:document pageRange:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, document.pageCount)] options:options progressBlock:NULL error:NULL];
-        PSPDFDocument *documentWithConsolidatedData = [PSPDFDocument documentWithData:consolidatedData];
-
-        PSPDFViewController *controller = [[PSPDFViewController alloc] initWithDocument:documentWithConsolidatedData];
-        controller.rightBarButtonItems = @[controller.annotationButtonItem, controller.searchButtonItem, controller.viewModeButtonItem];
-        controller.additionalBarButtonItems = @[controller.openInButtonItem, controller.emailButtonItem];
-        return controller;
-    }]];
-
-    [documentTests addContent:[PSContent contentWithTitle:@"Extract single pages with PSPDFProcessor" block:^{
-        PSPDFDocument *document = [PSPDFDocument documentWithURL:[samplesURL URLByAppendingPathComponent:kHackerMagazineExample]];
-
-        // Here we combine the NSData pieces in the PSPDFDocument into one piece of NSData (for sharing)
-        NSMutableIndexSet *pageIndexes = [[NSMutableIndexSet alloc] initWithIndex:1];
-        [pageIndexes addIndex:3];
-        [pageIndexes addIndex:5];
-
-        // Extract pages into new document
-        NSData *newDocumentData = [[PSPDFProcessor defaultProcessor] generatePDFFromDocument:document pageRange:pageIndexes options:nil progressBlock:NULL error:NULL];
-
-        // add a page from a second document
-        PSPDFDocument *landscapeDocument = [PSPDFDocument documentWithURL:[samplesURL URLByAppendingPathComponent:kHackerMagazineExample]];
-        NSData *newLandscapeDocumentData = [[PSPDFProcessor defaultProcessor] generatePDFFromDocument:landscapeDocument pageRange:[NSIndexSet indexSetWithIndex:0] options:nil progressBlock:NULL error:NULL];
-
-        // merge into new PDF
-        PSPDFDocument *twoPartDocument = [PSPDFDocument documentWithDataArray:@[newDocumentData, newLandscapeDocumentData]];
-        NSData *mergedDocumentData = [[PSPDFProcessor defaultProcessor] generatePDFFromDocument:twoPartDocument pageRange:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, twoPartDocument.pageCount)] options:nil progressBlock:NULL error:NULL];
-        PSPDFDocument *mergedDocument = [PSPDFDocument documentWithData:mergedDocumentData];
-
-        // Note: PSPDFDocument supports having multiple data sources right from the start, this is just to demonstrate how to generate a new, single PDF from PSPDFDocument sources.
-
-        PSPDFViewController *controller = [[PSPDFViewController alloc] initWithDocument:mergedDocument];
-        return controller;
-    }]];
-
-    [documentTests addContent:[PSContent contentWithTitle:@"Extract single pages with PSPDFProcessor, the fast way" block:^{
-        PSPDFDocument *document = [PSPDFDocument documentWithURL:[samplesURL URLByAppendingPathComponent:kHackerMagazineExample]];
-
-        // Here we use the pageRange feature to skip the intermediate NSDate objects we had to create in the last example.
-        NSMutableIndexSet *pageIndexes = [[NSMutableIndexSet alloc] initWithIndex:1];
-        [pageIndexes addIndex:3];
-        [pageIndexes addIndex:5];
-        [pageIndexes addIndex:document.pageCount + 3]; // next document!
-
-        [document appendFile:kPaperExampleFileName]; // Append second file
-        document.pageRange = pageIndexes;    // Define new page range.
-
-        // Merge pages into new document.
-        NSURL *tempURL = PSCTempFileURLWithPathExtension(@"temp", @"pdf");
-        [[PSPDFProcessor defaultProcessor] generatePDFFromDocument:document pageRange:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, document.pageCount)] outputFileURL:tempURL options:nil progressBlock:NULL error:NULL];
-        PSPDFDocument *mergedDocument = [PSPDFDocument documentWithURL:tempURL];
-
-        // Note: PSPDFDocument supports having multiple data sources right from the start, this is just to demonstrate how to generate a new, single PDF from PSPDFDocument sources.
-        PSPDFViewController *controller = [[PSPDFViewController alloc] initWithDocument:mergedDocument];
-        return controller;
-    }]];
-    [sections addObject:documentTests];
-
-    PSCSectionDescriptor *pageRangeTests = [PSCSectionDescriptor sectionWithTitle:@"pageRange feature" footer:@"With pageRange, the pages visible can be filtered"];
-
-    [pageRangeTests addContent:[PSContent contentWithTitle:@"Limit pages to 5-10 via pageRange" block:^{
-        // cache needs to be cleared since pages will change.
-        [[PSPDFCache sharedCache] clearCache];
-        _clearCacheNeeded = YES;
-
-        PSPDFDocument *document = [PSPDFDocument documentWithURL:[samplesURL URLByAppendingPathComponent:kHackerMagazineExample]];
-        document.pageRange = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(4, 5)];
-        PSPDFViewController *controller = [[PSPDFViewController alloc] initWithDocument:document];
-        controller.rightBarButtonItems = @[controller.annotationButtonItem, controller.viewModeButtonItem];
-        controller.thumbnailBarMode = PSPDFThumbnailBarModeScrollable;
-        return controller;
-    }]];
-
-    [pageRangeTests addContent:[PSContent contentWithTitle:@"Add pageRange filter for bookmarked pages" block:^{
-        // Set up document and controller
-        PSPDFDocument *document = [PSPDFDocument documentWithURL:[samplesURL URLByAppendingPathComponent:kHackerMagazineExample]];
-        PSPDFViewController *controller = [[PSPDFViewController alloc] initWithDocument:document];
-
-        // Create the filter barButton
-        __weak PSPDFViewController *weakController = controller;
-        __block UIBarButtonItem *filterBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStyleBordered block:^(id sender) {
-
-            // Before setting anything, save.
-            [document saveAnnotationsWithError:NULL];
-
-            // Update pageRange-filter
-            BOOL isFilterSet = document.pageRange != nil;
-            filterBarButton.title = isFilterSet ? @"Filter" : @"Disable Filter";
-            NSMutableIndexSet *set = nil;
-            if (!isFilterSet) {
-                set = [NSMutableIndexSet indexSet];
-                for (PSPDFBookmark *bookmark in document.bookmarks) [set addIndex:bookmark.page];
-            }
-            document.pageRange = set;
-
-            // After setting pageRange, we need to clear the cache and reload the controller
-            [PSPDFCache.sharedCache removeCacheForDocument:document deleteDocument:NO error:NULL];
-            [weakController reloadData];
-
-            // (Example-Global) Cache needs to be cleared since pages will change.
-            _clearCacheNeeded = YES;
-        }];
-
-        controller.rightBarButtonItems = @[filterBarButton, controller.bookmarkButtonItem, controller.outlineButtonItem, controller.annotationButtonItem, controller.viewModeButtonItem];
-        controller.barButtonItemsAlwaysEnabled = @[filterBarButton];
-        controller.thumbnailBarMode = PSPDFThumbnailBarModeScrollable;
-        controller.renderingMode = PSPDFPageRenderingModeFullPageBlocking;
-        return controller;
-    }]];
-
-    [sections addObject:pageRangeTests];
-
-
     // Get all examples
     NSArray *examples = PSCExampleManager.defaultManager.allExamples;
 
@@ -452,7 +238,7 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
     for (PSCExample *example in examples) {
         if (currentCategory != example.category) {
             currentCategory = example.category;
-            currentSection = [PSCSectionDescriptor sectionWithTitle:PSPDFStringFromExampleCategory(currentCategory) footer:nil];
+            currentSection = [PSCSectionDescriptor sectionWithTitle:PSPDFHeaderFromExampleCategory(currentCategory) footer:PSPDFFooterFromExampleCategory(currentCategory)];
             [sections addObject:currentSection];
         }
 
@@ -468,7 +254,7 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
     [multimediaSection addContent:[PSContent contentWithTitle:@"Multimedia PDF example" block:^{
         PSPDFDocument *multimediaDoc = [PSPDFDocument documentWithURL:[samplesURL URLByAppendingPathComponent:@"multimedia.pdf"]];
         PSPDFViewController *pdfController = [[PSPDFViewController alloc] initWithDocument:multimediaDoc];
-        pdfController.rightBarButtonItems = @[pdfController.openInButtonItem];
+        pdfController.rightBarButtonItems = @[pdfController.openInButtonItem, pdfController.viewModeButtonItem];
         return pdfController;
     }]];
 
@@ -603,11 +389,12 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
     // This example shows how you can create an XFDF provider instead of the default file-based one.
     // XFDF is an industry standard and the file will be interopable with Adobe Acrobat or any other standard-compliant PDF framework.
     [annotationSection addContent:[PSContent contentWithTitle:@"XFDF Annotation Provider" block:^{
-        NSURL *documentURL = [samplesURL URLByAppendingPathComponent:@"Testcase_IncomeTaxRegulations_Crash.pdf"];
+        NSURL *documentURL = [samplesURL URLByAppendingPathComponent:kHackerMagazineExample];
 
         // Load from an example XFDF file.
         NSString *docsFolder = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
         NSURL *fileXML = [NSURL fileURLWithPath:[docsFolder stringByAppendingPathComponent:@"XFDFTest.xfdf"]];
+        NSLog(@"Using XFDF file at %@", fileXML.path);
 
         // Create an example XFDF from the current document if one doesn't already exist.
         if (![[NSFileManager defaultManager] fileExistsAtPath:fileXML.path]) {
@@ -625,6 +412,66 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
             }
             [outputStream close];
         }
+
+        // Create document and set up the XFDF provider
+        PSPDFDocument *document = [PSPDFDocument documentWithURL:documentURL];
+        [document setDidCreateDocumentProviderBlock:^(PSPDFDocumentProvider *documentProvider) {
+            PSPDFXFDFAnnotationProvider *XFDFProvider = [[PSPDFXFDFAnnotationProvider alloc] initWithDocumentProvider:documentProvider fileURL:fileXML];
+            documentProvider.annotationManager.annotationProviders = @[XFDFProvider];
+        }];
+
+        return [[PSPDFViewController alloc] initWithDocument:document];
+    }]];
+
+    [annotationSection addContent:[PSContent contentWithTitle:@"XFDF Writing" block:^{
+        NSURL *documentURL = [samplesURL URLByAppendingPathComponent:@"Annotation Test.pdf"];
+
+        NSString *docsFolder = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+        NSURL *fileXML = [NSURL fileURLWithPath:[docsFolder stringByAppendingPathComponent:@"XFDFTest.xfdf"]];
+        NSLog(@"fileXML: %@",fileXML);
+
+        // Collect all existing annotations from the document
+        PSPDFDocument *tempDocument = [PSPDFDocument documentWithURL:documentURL];
+        NSMutableArray *annotations = [NSMutableArray array];
+
+
+        PSPDFLinkAnnotation *linkAnnotation = [[PSPDFLinkAnnotation alloc] initWithURLString:@"http://pspdfkit.com"];
+        linkAnnotation.boundingBox = CGRectMake(100, 80, 200, 300);
+        linkAnnotation.page = 1;
+        [annotations addObject:linkAnnotation];
+
+        PSPDFLinkAnnotation *aStream = [[PSPDFLinkAnnotation alloc] initWithURLString:@"pspdfkit://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8"];
+        aStream.boundingBox = CGRectMake(100, 100, 200, 300);
+        aStream.page = 0;
+        [annotations addObject:aStream];
+
+        //        PSPDFLinkAnnotation *anImage = [[PSPDFLinkAnnotation alloc] initWithURLString:@"pspdfkit://[contentMode=2]localhost/Bundle/exampleImage.jpg"];
+        PSPDFLinkAnnotation *anImage = [[PSPDFLinkAnnotation alloc] initWithURLString:@"pspdfkit://ramitia.files.wordpress.com/2011/05/durian1.jpg"];
+        anImage.boundingBox = CGRectMake(100, 100, 200, 300);
+        anImage.page = 3;
+        [annotations addObject:anImage];
+
+
+        PSPDFLinkAnnotation *aVideo2 = [[PSPDFLinkAnnotation alloc] initWithURLString:@"pspdfkit://[autostart:true]localhost/Bundle/big_buck_bunny.mp4"];
+        aVideo2.boundingBox = CGRectMake(100, 100, 200, 300);
+        aVideo2.page = 2;
+        [annotations addObject:aVideo2];
+
+        PSPDFLinkAnnotation *anImage3 = [[PSPDFLinkAnnotation alloc] initWithLinkAnnotationType:PSPDFLinkAnnotationImage];
+        anImage3.URL = [NSURL URLWithString:[NSString stringWithFormat:@"pspdfkit://[contentMode=%zd]ramitia.files.wordpress.com/2011/05/durian1.jpg", UIViewContentModeScaleAspectFill]];
+        anImage3.boundingBox = CGRectMake(100, 100, 200, 300);
+        anImage3.page = 4;
+        [annotations addObject:anImage3];
+
+        NSLog(@"annotations: %@", annotations);
+
+        // Write the file
+        NSError *error = nil;
+        NSOutputStream *outputStream = [NSOutputStream outputStreamWithURL:fileXML append:NO];
+        if (![[PSPDFXFDFWriter new] writeAnnotations:annotations toOutputStream:outputStream documentProvider:tempDocument.documentProviders[0] error:&error]) {
+            NSLog(@"Failed to write XFDF file: %@", error.localizedDescription);
+        }
+        [outputStream close];
 
         // Create document and set up the XFDF provider
         PSPDFDocument *document = [PSPDFDocument documentWithURL:documentURL];
@@ -804,13 +651,18 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
 
     [customizationSection addContent:[PSContent contentWithTitle:@"Use a Bottom Toolbar" block:^{
         PSPDFDocument *document = [PSPDFDocument documentWithURL:hackerMagURL];
-        // simple subclass that shows/hides the navigationController bottom toolbar
+        // Simple subclass that shows/hides the navigationController bottom toolbar
         PSCBottomToolbarViewController *pdfController = [[PSCBottomToolbarViewController alloc] initWithDocument:document];
         pdfController.statusBarStyleSetting = PSPDFStatusBarStyleDefault;
         pdfController.thumbnailBarMode = PSPDFThumbnailBarModeNone;
         UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
         pdfController.bookmarkButtonItem.tapChangesBookmarkStatus = NO;
+        pdfController.leftBarButtonItems = nil;
+        pdfController.rightBarButtonItems = nil; // Important! BarButtonItems can only be displayed at one location.
         pdfController.toolbarItems = @[space, pdfController.bookmarkButtonItem, space, pdfController.annotationButtonItem, space, pdfController.searchButtonItem, space, pdfController.outlineButtonItem, space, pdfController.emailButtonItem, space, pdfController.printButtonItem, space, pdfController.openInButtonItem, space];
+
+        // Since we show thetoolbar from the bottom, match the tint.
+        PSC_IF_IOS7_OR_GREATER(pdfController.annotationButtonItem.annotationToolbar.barTintColor = self.navigationController.toolbar.barTintColor;)
         return pdfController;
     }]];
 
@@ -837,7 +689,7 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
         return pdfController;
     }]];
 
-    // Text selection feature is only available in PSPDFKit Annotate.
+    // Text selection feature is only available in PSPDFKit Complete.
     if ([PSPDFTextSelectionView isTextSelectionFeatureAvailable]) {
         [customizationSection addContent:[PSContent contentWithTitle:@"Custom Text Selection Menu" block:^{
             PSPDFDocument *document = [PSPDFDocument documentWithURL:hackerMagURL];
@@ -978,7 +830,7 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
     }]];
 
     /// Example how to decrypt a AES256 encrypted PDF on the fly.
-    /// The crypto feature is only available in PSPDFKit Annotate.
+    /// The crypto feature is only available in PSPDFKit Basic/Complete.
     if ([PSPDFAESCryptoDataProvider isAESCryptoFeatureAvailable]) {
         [passwordSection addContent:[PSContent contentWithTitle:@"Encrypted CGDocumentProvider" block:^{
             NSURL *encryptedPDF = [samplesURL URLByAppendingPathComponent:@"aes-encrypted.pdf.aes"];
@@ -2784,7 +2636,7 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
     }]];
 
     // Test that merging both document (first page each) correctly preserves the aspect ratio.
-    [documentTests addContent:[PSContent contentWithTitle:@"Merge landscape with portrait page" block:^{
+    [testSection addContent:[PSContent contentWithTitle:@"Merge landscape with portrait page" block:^{
         PSPDFDocument *document = [PSPDFDocument documentWithBaseURL:samplesURL files:@[@"Testcase_consolidate_A.pdf", @"Testcase_consolidate_B.pdf"]];
         NSMutableIndexSet *pageRange = [NSMutableIndexSet indexSetWithIndex:0];
         [pageRange addIndex:5];
@@ -2802,7 +2654,7 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
     [testSection addContent:[PSContent contentWithTitle:@"Test PDF Forms" block:^UIViewController *{
         PSPDFDocument *document = [PSPDFDocument documentWithURL:[samplesURL URLByAppendingPathComponent:@"Testcase_forms.pdf"]];
         PSPDFViewController *pdfController = [[PSPDFViewController alloc] initWithDocument:document];
-        pdfController.rightBarButtonItems = @[pdfController.annotationButtonItem, pdfController.openInButtonItem, pdfController.searchButtonItem, pdfController.outlineButtonItem, pdfController.viewModeButtonItem];
+        pdfController.rightBarButtonItems = @[pdfController.annotationButtonItem, pdfController.openInButtonItem, pdfController.emailButtonItem, pdfController.outlineButtonItem, pdfController.viewModeButtonItem];
         return pdfController;
     }]];
 
@@ -2885,7 +2737,9 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
     _searchDisplayController.searchResultsDelegate = self;
 
     // Private API to improve search result style - don't ship this in App Store builds.
-    [_searchDisplayController setValue:@(UITableViewStyleGrouped) forKey:[NSString stringWithFormat:@"%@TableViewStyle", @"searchResults"]];
+    if (!PSCIsUIKitFlatMode()) {
+        [_searchDisplayController setValue:@(UITableViewStyleGrouped) forKey:[NSString stringWithFormat:@"%@TableViewStyle", @"searchResults"]];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -2896,6 +2750,7 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
     if (PSCIsUIKitFlatMode()) {
         PSC_IF_IOS7_OR_GREATER([UIApplication.sharedApplication setStatusBarStyle:UIStatusBarStyleLightContent animated:animated];)
         PSC_IF_IOS7_OR_GREATER(self.navigationController.navigationBar.barTintColor = UIColor.pspdfColor;)
+        PSC_IF_IOS7_OR_GREATER(self.navigationController.toolbar.tintColor = UIColor.blackColor;)
         PSC_IF_IOS7_OR_GREATER(self.navigationController.view.tintColor = UIColor.whiteColor;)
         self.navigationController.navigationBar.titleTextAttributes = @{UITextAttributeTextColor : UIColor.whiteColor};
     }else {
@@ -3101,11 +2956,16 @@ static NSString *const PSCLastIndexPath = @"PSCLastIndexPath";
     return YES;
 }
 
+- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
+    // HACK: Tapping twice on the search bar on iOS 7 will make it disappear. This is a workaround for this UIKit bug.
+    [self.view addSubview:controller.searchBar];
+}
+
 - (void)filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope {
     NSMutableArray *filteredContent = [NSMutableArray array];
 
     if (searchText.length > 0) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"self.title CONTAINS[cd] '%@'", searchText]];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.title CONTAINS[cd] %@", searchText];
         for (PSCSectionDescriptor *section in self.content) {
             [filteredContent addObjectsFromArray:[section.contentDescriptors filteredArrayUsingPredicate:predicate]];
         }

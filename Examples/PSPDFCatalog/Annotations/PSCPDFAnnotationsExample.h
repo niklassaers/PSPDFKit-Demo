@@ -22,7 +22,7 @@
 
 @end
 
-@interface PSCPDFAnnotationsCustomAnnotationsWithMultipleFilesExample : PSCExample
+@interface PSCPDFAnnotationsCustomAnnotationsWithMultipleFilesExample : PSCExample<PSPDFViewControllerDelegate>
 
 @end
 

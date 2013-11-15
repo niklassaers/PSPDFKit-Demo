@@ -160,7 +160,13 @@
     [document addAnnotations:@[anImage]];
     
     PSPDFViewController *controller = [[PSPDFViewController alloc] initWithDocument:document];
+    controller.delegate = self;
     return controller;
+}
+
+- (BOOL)pdfViewController:(PSPDFViewController *)pdfController didTapOnAnnotation:(PSPDFAnnotation *)annotation annotationPoint:(CGPoint)annotationPoint annotationView:(UIView<PSPDFAnnotationViewProtocol> *)annotationView {
+    NSLog(@"Delegate method called");
+    return NO;
 }
 
 @end

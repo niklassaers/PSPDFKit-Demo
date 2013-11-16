@@ -128,7 +128,9 @@
 
 @end
 
-@implementation PSCPDFAnnotationsCustomAnnotationsWithMultipleFilesExample
+@implementation PSCPDFAnnotationsCustomAnnotationsWithMultipleFilesExample {
+    PSPDFLinkAnnotation *aVideo, *anImage;
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - PSCExample
@@ -149,19 +151,53 @@
     PSPDFDocument *document = [PSPDFDocument documentWithBaseURL:samplesURL files:files];
     
     // We're lazy here. 2 = UIViewContentModeScaleAspectFill
-    PSPDFLinkAnnotation *aVideo = [[PSPDFLinkAnnotation alloc] initWithURLString:@"pspdfkit://[contentMode=2]localhost/Bundle/big_buck_bunny.mp4"];
+    aVideo = [[PSPDFLinkAnnotation alloc] initWithURLString:@"pspdfkit://[contentMode=2]localhost/Bundle/big_buck_bunny.mp4"];
     aVideo.boundingBox = [document pageInfoForPage:5].rotatedPageRect;
     aVideo.page = 5;
     [document addAnnotations:@[aVideo]];
     
-    PSPDFLinkAnnotation *anImage = [[PSPDFLinkAnnotation alloc] initWithURLString:@"pspdfkit://[contentMode=2]localhost/Bundle/exampleImage.jpg"];
+    anImage = [[PSPDFLinkAnnotation alloc] initWithURLString:@"pspdfkit://[contentMode=2]localhost/Bundle/exampleImage.jpg"];
     anImage.boundingBox = [document pageInfoForPage:2].rotatedPageRect;
     anImage.page = 2;
     [document addAnnotations:@[anImage]];
     
     PSPDFViewController *controller = [[PSPDFViewController alloc] initWithDocument:document];
     controller.delegate = self;
+    
     return controller;
+}
+
+- (UIView <PSPDFAnnotationViewProtocol> *)pdfViewController:(PSPDFViewController *)pdfController annotationView:(UIView <PSPDFAnnotationViewProtocol> *)annotationView forAnnotation:(PSPDFAnnotation *)annotation onPageView:(PSPDFPageView *)pageView {
+    if([NSStringFromClass(annotationView.class) isEqualToString:@"PSPDFVideoAnnotationView"]) {
+        NSLog(@"Video");
+
+        PSPDFVideoAnnotationView *av = (PSPDFVideoAnnotationView*) annotationView;
+        [av addObserver:self forKeyPath:@"player" options:NSKeyValueObservingOptionNew context:nil];
+        if(av.player != nil)
+            NSLog(@"This looks good");
+        if(annotationView.subviews.count > 0)
+            NSLog(@"Video loaded!");
+
+        annotationView.userInteractionEnabled = YES;
+        
+    } else {
+        annotationView.userInteractionEnabled = NO;
+        
+    }
+    return annotationView;
+}
+
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if([keyPath isEqualToString:@"player"]) {
+        PSPDFVideoAnnotationView *av = object;
+        MPMoviePlayerController *player = (MPMoviePlayerController*) av.player;
+        CGRect f = player.view.bounds;
+        f.size.height -= 50;
+        UIView *v = [[UIView alloc] initWithFrame:f];
+        v.backgroundColor = [UIColor clearColor];
+        [av addSubview:v];
+        [av removeObserver:self forKeyPath:@"player"];
+    }
 }
 
 - (BOOL)pdfViewController:(PSPDFViewController *)pdfController didTapOnAnnotation:(PSPDFAnnotation *)annotation annotationPoint:(CGPoint)annotationPoint annotationView:(UIView<PSPDFAnnotationViewProtocol> *)annotationView {
